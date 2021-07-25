@@ -23,7 +23,7 @@ inventory = {}
 @app.get("/get-items")
 def get_items():
 	return inventory
-	
+
 # GET by id
 
 @app.get("/get-item/{item_id}")
@@ -31,12 +31,9 @@ def get_items():
 def get_item(item_id: int = Path(None, description="The ID of the item you would like to view.", gt=0)):
 	return inventory[item_id]
 
-
-# How to accept query parameters for your endpoint
-
 # GET by name
 @app.get("/get-by-name")
-# Multiple path parameters
+# Accept multiple query parameters for your endpoint
 def get_item(name: str = Query(None, title="Name", description="Name of item.")):
 	for item_id in inventory:
 		if inventory[item_id].name == name:
@@ -44,7 +41,7 @@ def get_item(name: str = Query(None, title="Name", description="Name of item."))
 	raise HTTPException(status_code=404, detail="Item ID not found")
 
 # CREATE
-@app.post("/create-item/{item_ id}")
+@app.post("/create-item/{item_id}")
 def create_item(item_id: int, item: Item):
 	if item_id in inventory:
 		raise HTTPException(status_code=400, detail="Item ID already exists")
